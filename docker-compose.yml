@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  joucode_dev:
+    container_name: joucode_dev
+    build: .
+    image: joucode_dev
+    ports:
+      - "6666:6666"
