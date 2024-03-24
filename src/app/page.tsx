@@ -1,13 +1,17 @@
-import { Header } from "@/components/HeaderComponent";
+import { About } from "@/components/AboutComponent";
 import { Navbar } from "@/components/NavbarComponent";
+import { Header } from "@/components/HeaderComponent";
 import { Projects } from "@/components/ProyectsComponent";
 
-export default function Home() {
+const Home = () => {
   return (
     <>
       <Navbar />
-      <Header />
-      <Projects />
+      <Header />      
+      <Projects />      
+      <About />
     </>
   );
-}
+};
+
+export default Home;
