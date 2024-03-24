@@ -6,4 +6,4 @@ services:
     build: .
     image: joucode_dev
     ports:
-      - "6666:6666"
+      - "6060:6060"

@@ -1,16 +1,16 @@
-FROM node:latest
+FROM oven/bun
 
 WORKDIR /usr/src/joucode_dev
 
 # Copiar package.json y .env
 COPY package.json .
 
-RUN npm install
+RUN bun install
 
 COPY . .
 
-RUN npm run build
+RUN bun run build
 
-EXPOSE 6666
+EXPOSE 6060
 
-CMD ["npm", "run", "start"]
+CMD ["bun", "run", "start"]
