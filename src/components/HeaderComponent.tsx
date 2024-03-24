@@ -1,6 +1,6 @@
 export const Header = () => {
   return (
-    <section className="mt-0 flex flex-col items-center w-screen h-600 bg-[#1c1d1e]">
+    <section className="mt-0 flex flex-col items-center w-screen h-600 bg-[#1c1d1e]" id="home">
         <header className="flex flex-col items-center justify-center mt-[90px]">
           <a className="flex items-center gap-1 m-3 py-3 px-4 cursor-pointer bg-[#1f20222] border-[0.5px] border-solid rounded-xl border-[#45484b]" download="CV-Josue-Salazar" href="https://diegoinost.dev/assets/pdf/CV-Inostroza-Diego.pdf" >
             <img className="w-5 h-5" src="https://diegoinost.dev/assets/svg/shared/file-download.svg" alt="file"/> 
@@ -19,8 +19,8 @@ export const Header = () => {
               <img className="w-4" src="https://diegoinost.dev/assets/svg/shared/arrow-right.svg" alt="arrow" />
             </a>
           </div>
-          <footer className="max-w-72 flex flex-row items-center mt-1 opacity-[0.9]">
-          <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/typescript.svg" alt="angular"/>
+          <footer className="max-w-72 flex flex-row items-center mt-1 opacity-[0.9] animate-pulse">
+            <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/typescript.svg" alt="angular"/>
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/python.png" alt="angular"/>
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/ubuntu.png" alt="angular"/>
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/html.svg" alt="angular"/>
@@ -28,7 +28,6 @@ export const Header = () => {
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/postgres.png" alt="angular"/>
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/git.svg" alt="angular"/>
             <img className="my-0 mx-2 w-max h-6 opacity-[.8]" src="/images/icons-technologies/docker.png" alt="angular"/>
-
           </footer>
         </header>
         
