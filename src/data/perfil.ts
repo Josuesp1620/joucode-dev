@@ -77,7 +77,7 @@ export const PRODUCTOS: Producto[] = [
     etiqueta: 'TikTok · Instagram',
     resumen: 'La IA explicada por dentro: videos para TikTok e Instagram y una web interactiva en 3D sobre RAG, embeddings y búsqueda semántica.',
     puntos: ['Caso de estudio real: una ley de 86 páginas', 'Rechunking, vectores y búsqueda en vivo', 'Datos reales en cada gráfico'],
-    enlaces: [{ texto: 'Web interactiva', url: 'http://88.99.253.18:3000/' }],
+    enlaces: [{ texto: 'Web interactiva', url: 'https://planos-web-ai.apiservicesac.com' }],
     captura: '/images/projects/planos-project.png',
   },
 ];
