@@ -1,0 +1,10 @@
+# pnpm 11 crea este archivo solo para `allowBuilds`, pero pnpm 10 —la versión
+# con la que construye Cloudflare— exige que declare `packages` o aborta con
+# "packages field missing or empty". Este proyecto es de un solo paquete.
+packages:
+  - "."
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true

@@ -1,24 +1,271 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/NavbarComponent.astro'
-import Header from '../components/HeaderComponent.astro'
-import Projects from '../components/ProyectsComponent.astro'
-import About from '../components/AboutComponent.astro'
-import Certifications from '../components/CertificationsComponent.astro'
-import Skills from '../components/SkillsComponent.astro'
-import Footer from '../components/FooterComponent.astro'
+import Icono from '../components/Icono.astro';
+import { EMPRESA, FORMACION, PERSONA, PRODUCTOS, SOLUCIONES, STACK, TRAYECTORIA } from '../data/perfil';
+
+const NAV = [
+  { texto: 'Empresa', href: '#empresa' },
+  { texto: 'Productos', href: '#productos' },
+  { texto: 'Trayectoria', href: '#trayectoria' },
+  { texto: 'Contacto', href: '#contacto' },
+];
+const CIFRAS = [
+  { valor: '4+', texto: 'años construyendo software' },
+  { valor: '6', texto: 'empresas cliente' },
+  { valor: '2', texto: 'productos propios' },
+];
+const boton = 'inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition';
 ---
 
-<Layout title="Josue Salazar | Software Developer">
-	<Navbar />
-	<Header />
-	<About />
-	<!-- <Certifications /> -->
-	<Skills />
-	<Projects />
-	<Footer />
+<Layout title="Josue Salazar · Fundador y CEO de API SERVICE SAC" description="Josue Salazar, fundador y CEO de API SERVICE SAC. Integraciones, IA aplicada, desarrollo a medida, implementación de ERP y productos propios como Dooservice y Dooprint.">
+  <!-- Navegación -->
+  <header class="sticky top-0 z-50 border-b border-borde bg-fondo/85 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-contenido items-center justify-between gap-6 px-5 md:px-8">
+      <a href="#inicio" class="flex items-center gap-2.5">
+        <img src={PERSONA.foto} alt="" class="h-8 w-8 rounded-full" width="32" height="32" />
+        <span class="font-bold">{PERSONA.nombre}</span>
+      </a>
+      <nav class="hidden items-center gap-7 text-sm text-tinta2 md:flex">
+        {NAV.map((n) => <a href={n.href} class="hover:text-tinta">{n.texto}</a>)}
+      </nav>
+      <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class={`${boton} bg-azul py-2 text-white hover:bg-azulOscuro`}>
+        <Icono nombre="whatsapp" /> Conversemos
+      </a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- Portada -->
+    <section class="mx-auto grid max-w-contenido items-center gap-12 px-5 pb-16 pt-8 md:grid-cols-[1.15fr_0.85fr] md:px-8 md:pb-24 md:pt-12">
+      <div>
+        <a href={EMPRESA.web} target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 rounded-full border border-borde bg-tarjeta py-1.5 pl-1.5 pr-4 text-sm font-medium hover:border-azul/40">
+          <img src={EMPRESA.logo} alt="" class="h-7 w-7" width="28" height="28" />
+          <span class="font-mono text-xs tracking-[0.12em] text-tinta2">FUNDADOR Y CEO</span>
+          <span class="h-3.5 w-px bg-borde" aria-hidden="true" />
+          <span class="text-sm font-bold tracking-wide text-azul">API SERVICE SAC</span>
+        </a>
+        <h1 class="mt-6 text-4xl font-extrabold leading-[1.05] md:text-6xl">Digitalizo empresas con integraciones, IA y software a medida.</h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-tinta2">
+          Soy {PERSONA.nombre}. Lidero la empresa y su equipo técnico: conectamos sistemas, construimos software a medida, implementamos ERP y aplicamos IA, y tenemos productos propios como Dooservice y Dooprint.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class={`${boton} bg-azul text-white hover:bg-azulOscuro`}><Icono nombre="whatsapp" /> Escríbeme por WhatsApp</a>
+          <a href={PERSONA.linkedin} target="_blank" rel="noopener" class={`${boton} border border-borde bg-tarjeta hover:border-tinta/30`}><Icono nombre="linkedin" /> LinkedIn</a>
+          <a href={PERSONA.github} target="_blank" rel="noopener" class={`${boton} border border-borde bg-tarjeta hover:border-tinta/30`}><Icono nombre="github" /> GitHub</a>
+        </div>
+        <dl class="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-borde pt-6">
+          {CIFRAS.map((c) => (
+            <div>
+              <dt class="text-3xl font-extrabold tabular-nums text-tinta">{c.valor}</dt>
+              <dd class="mt-1 text-sm leading-snug text-tenue">{c.texto}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div class="relative mx-auto w-full max-w-sm">
+        <div class="overflow-hidden rounded-[28px] border border-borde bg-tarjeta p-2 shadow-[0_30px_80px_-30px_rgba(16,100,234,0.35)]">
+          <img src={PERSONA.foto} alt={`Foto de ${PERSONA.nombre}`} class="aspect-square w-full rounded-[22px] object-cover" width="460" height="460" />
+        </div>
+        <div class="absolute -bottom-6 left-1/2 flex w-[88%] -translate-x-1/2 items-center gap-3 rounded-2xl border border-borde bg-tarjeta px-4 py-3 shadow-lg">
+          <img src={EMPRESA.logo} alt="" class="h-10 w-10" width="40" height="40" />
+          <div class="leading-tight">
+            <div class="font-bold">API SERVICE SAC</div>
+            <div class="font-mono text-[11px] tracking-[0.1em] text-tenue">TECNOLOGÍA E IA · LIMA</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- La empresa -->
+    <section id="empresa" class="border-y border-borde bg-tarjeta">
+      <div class="mx-auto max-w-contenido px-5 py-20 md:px-8">
+        <div class="grid gap-10 md:grid-cols-[1fr_1.1fr]">
+          <div>
+            <p class="font-mono text-xs font-medium tracking-[0.18em] text-azul">LA EMPRESA</p>
+            <h2 class="mt-3 text-3xl font-extrabold md:text-4xl">{EMPRESA.lema}</h2>
+          </div>
+          <div class="text-lg leading-relaxed text-tinta2">
+            <p>{EMPRESA.descripcion}</p>
+            <a href={EMPRESA.web} target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-2 font-semibold text-azul hover:underline">apiservicesac.com <Icono nombre="flecha" /></a>
+          </div>
+        </div>
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {EMPRESA.servicios.map((s) => (
+            <div class="rounded-2xl border border-borde bg-fondo p-6">
+              <h3 class="text-lg font-bold">{s.titulo}</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-tinta2">{s.texto}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-14">
+          <p class="text-center text-sm text-tenue">Empresas que han confiado en nosotros</p>
+          <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {EMPRESA.clientes.map((c) => (
+              <div class="grid h-20 place-items-center rounded-xl border border-borde bg-white p-3" title={c.nombre}>
+                <img src={c.logo} alt={c.nombre} class="max-h-12 w-auto max-w-full object-contain" loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos -->
+    <section id="productos" class="mx-auto max-w-contenido px-5 py-20 md:px-8">
+      <p class="font-mono text-xs font-medium tracking-[0.18em] text-azul">PRODUCTOS</p>
+      <h2 class="mt-3 max-w-2xl text-3xl font-extrabold md:text-4xl">Lo que construimos y usamos todos los días.</h2>
+      <div class="mt-12 space-y-8">
+        {PRODUCTOS.map((p, i) => (
+          <article class="grid items-center gap-8 rounded-3xl border border-borde bg-tarjeta p-6 md:grid-cols-2 md:p-10">
+            <div class:list={[i % 2 === 1 && 'md:order-2']}>
+              <div class="flex items-center gap-3">
+                {p.logo ? (
+                  <img src={p.logo} alt="" class="h-11 w-11" width="44" height="44" />
+                ) : (
+                  <span class="grid h-11 w-11 place-items-center rounded-xl bg-black text-white" aria-label="TikTok">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="#25f4ee" transform="translate(-0.7 -0.7)" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                      <path fill="#fe2c55" transform="translate(0.7 0.7)" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                      <path fill="#ffffff" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                  </span>
+                )}
+                <div>
+                  <h3 class="text-2xl font-extrabold">{p.nombre}</h3>
+                  <p class="font-mono text-[11px] font-medium tracking-wider text-tenue">{p.etiqueta.toUpperCase()}</p>
+                </div>
+              </div>
+              <p class="mt-5 text-lg leading-relaxed text-tinta2">{p.resumen}</p>
+              <ul class="mt-5 space-y-2">
+                {p.puntos.map((t) => (
+                  <li class="flex gap-2.5 text-[15px] text-tinta2">
+                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-azul" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-7 flex flex-wrap gap-3">
+                {p.enlaces.map((e, j) => (
+                  <a href={e.url} target="_blank" rel="noopener" class={`${boton} ${j === 0 ? 'bg-tinta text-white hover:bg-azul' : 'border border-borde hover:border-tinta/30'}`}>
+                    {e.texto} <Icono nombre="externo" />
+                  </a>
+                ))}
+              </div>
+            </div>
+            <a href={p.enlaces[0].url} target="_blank" rel="noopener" class:list={['group block overflow-hidden rounded-2xl border border-borde bg-fondo', i % 2 === 1 && 'md:order-1']}>
+              <div class="flex items-center gap-1.5 border-b border-borde px-4 py-2.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-[#ff6159]" /><span class="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" /><span class="h-2.5 w-2.5 rounded-full bg-[#28c941]" />
+                <span class="ml-3 truncate font-mono text-[11px] text-tenue">{p.enlaces[0].url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span>
+              </div>
+              <img src={p.captura} alt={`Captura de ${p.nombre}`} class="w-full transition duration-500 group-hover:scale-[1.02]" loading="lazy" />
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <h3 class="mt-16 text-xl font-bold">Otras soluciones que he liderado</h3>
+      <div class="mt-5 grid gap-4 md:grid-cols-3">
+        {SOLUCIONES.map((s) => (
+          <div class="rounded-2xl border border-borde bg-tarjeta p-6">
+            <h4 class="font-bold">{s.titulo}</h4>
+            <p class="mt-2 text-[15px] leading-relaxed text-tinta2">{s.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Trayectoria -->
+    <section id="trayectoria" class="border-y border-borde bg-tarjeta">
+      <div class="mx-auto grid max-w-contenido gap-14 px-5 py-20 md:grid-cols-[1.3fr_1fr] md:px-8">
+        <div>
+          <p class="font-mono text-xs font-medium tracking-[0.18em] text-azul">TRAYECTORIA</p>
+          <h2 class="mt-3 text-3xl font-extrabold">De desarrollador a fundador.</h2>
+          <ol class="mt-10 space-y-10 border-l-2 border-borde pl-7">
+            {TRAYECTORIA.map((t, i) => (
+              <li class="relative">
+                <span class:list={['absolute -left-[37px] top-1 h-4 w-4 rounded-full border-4 border-tarjeta', i === 0 ? 'bg-azul' : 'bg-borde']} />
+                <p class="text-lg font-bold text-azul">{t.empresa}</p>
+                {t.detalle && <p class="text-sm text-tenue">{t.detalle}</p>}
+                <div class="mt-3 space-y-5">
+                  {t.roles.map((r) => (
+                    <div>
+                      <h3 class="font-bold">{r.cargo}</h3>
+                      <p class="font-mono text-xs text-tenue">{r.fechas}</p>
+                      <ul class="mt-2 space-y-1.5">
+                        {r.puntos.map((p) => (
+                          <li class="flex gap-2.5 text-[15px] leading-relaxed text-tinta2">
+                            <span class="mt-[10px] h-1 w-1 shrink-0 rounded-full bg-tenue" />
+                            <span>{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="space-y-10 md:sticky md:top-24 md:self-start">
+          <div>
+            <h3 class="font-mono text-xs font-medium tracking-[0.18em] text-azul">FORMACIÓN</h3>
+            <div class="mt-5 space-y-4">
+              {FORMACION.map((f) => (
+                <div class="flex items-center gap-4 rounded-2xl border border-borde bg-fondo p-5">
+                  <div class="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-white p-1.5 ring-1 ring-borde">
+                    <img src={f.logo} alt={f.lugar} width="48" height="48" class="h-full w-full object-contain" loading="lazy" />
+                  </div>
+                  <div>
+                    <p class="font-bold">{f.titulo}</p>
+                    <p class="mt-1 text-sm text-tinta2">{f.lugar}</p>
+                    <p class="mt-1 font-mono text-xs text-tenue">{f.fechas}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 class="font-mono text-xs font-medium tracking-[0.18em] text-azul">STACK</h3>
+            <div class="mt-5 space-y-4">
+              {STACK.map((g) => (
+                <div>
+                  <p class="text-sm font-semibold">{g.grupo}</p>
+                  <div class="mt-2 flex flex-wrap gap-1.5">
+                    {g.items.map((s) => <span class="rounded-lg bg-fondo px-2.5 py-1 text-[13px] text-tinta2">{s}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="mx-auto max-w-contenido px-5 py-20 md:px-8">
+      <div class="rounded-3xl bg-azul px-6 py-14 text-center text-white md:px-16">
+        <h2 class="mx-auto max-w-2xl text-3xl font-extrabold md:text-4xl">¿Necesitas integrar tus sistemas, un desarrollo a medida o aplicar IA?</h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg text-white/85">Cuéntame qué necesitas y vemos cómo resolverlo.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class={`${boton} bg-white text-azul hover:bg-azulSuave`}><Icono nombre="whatsapp" /> {PERSONA.telefono}</a>
+          <a href={`mailto:${PERSONA.correo}`} class={`${boton} border border-white/40 hover:bg-white/10`}><Icono nombre="correo" /> {PERSONA.correo}</a>
+          <a href={PERSONA.linkedin} target="_blank" rel="noopener" class={`${boton} border border-white/40 hover:bg-white/10`}><Icono nombre="linkedin" /> LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-borde">
+    <div class="mx-auto flex max-w-contenido flex-wrap items-center justify-between gap-4 px-5 py-8 text-sm text-tenue md:px-8">
+      <p>© 2026 {PERSONA.nombre} · {PERSONA.ubicacion}</p>
+      <a href={EMPRESA.web} target="_blank" rel="noopener" class="flex items-center gap-2 font-bold tracking-wide text-tinta2 hover:text-azul">
+        <img src={EMPRESA.logo} alt="" class="h-6 w-6" width="24" height="24" /> API SERVICE SAC
+      </a>
+      <div class="flex items-center gap-4">
+        <a href={PERSONA.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:text-tinta"><Icono nombre="linkedin" clase="h-5 w-5" /></a>
+        <a href={PERSONA.github} target="_blank" rel="noopener" aria-label="GitHub" class="hover:text-tinta"><Icono nombre="github" clase="h-5 w-5" /></a>
+        <a href={PERSONA.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" class="hover:text-tinta"><Icono nombre="whatsapp" clase="h-5 w-5" /></a>
+      </div>
+    </div>
+  </footer>
 </Layout>
-
-<style>
-
-</style>

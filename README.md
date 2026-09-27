@@ -1,54 +1,45 @@
-# Astro Starter Kit: Basics
+# joucode-dev · Portafolio de Josue Salazar
 
-```sh
-npm create astro@latest -- --template basics
+Portafolio personal de Josue Salazar, fundador y CEO de API SERVICE SAC. Astro 7 y Tailwind 4, desplegado en
+Cloudflare Workers con la misma configuración que la web de Dooprint (`web-dooprint`).
+
+## Contenido
+
+Todo el contenido está en **`src/data/perfil.ts`** (persona, empresa, productos, soluciones, trayectoria, formación
+y stack). La página es `src/pages/index.astro`; los íconos, `src/components/Icono.astro`; los colores y las
+fuentes, `src/styles/global.css` (`@theme` de Tailwind 4; ya no hay `tailwind.config`).
+
+- Enfoque: fundador y CEO de API SERVICE SAC y líder técnico.
+- Nombres: **API SERVICE SAC** siempre en mayúsculas; **Dooservice** y **Dooprint** solo con la D mayúscula
+  (los dominios, en minúscula).
+- Logos en `public/marca/` (clientes copiados de apiservicesac.com); capturas en `public/images/projects/`.
+- Estilo: claro, azul de API SERVICE SAC (#1064EA) y tipografía Archivo (la de apiservicesac.com).
+
+## Comandos
+
+| Comando           | Qué hace                                          |
+| :---------------- | :------------------------------------------------ |
+| `pnpm install`    | Instala dependencias                              |
+| `pnpm dev`        | Servidor de desarrollo en `localhost:4321`        |
+| `pnpm build`      | Compila a `./dist/`                               |
+| `pnpm check`      | Revisa tipos con `astro check`                    |
+| `pnpm deploy`     | Compila y publica en Cloudflare (`wrangler.jsonc`) |
+| `pnpm cf-typegen` | Regenera los tipos de las bindings de Workers     |
+
+## En el servidor (pnpm solo dentro de Docker)
+
+En este servidor no se instala pnpm: todo corre en un contenedor `node:22-bookworm`.
+
+```bash
+# Instalar o añadir dependencias
+docker run --rm -u $(id -u):$(id -g) -e HOME=/tmp -v $PWD:/app -w /app node:22-bookworm npx -y pnpm@latest install
+
+# Vista en vivo en http://<servidor>:31306
+docker run -d --name joucode-dev --restart unless-stopped -u $(id -u):$(id -g) -e HOME=/tmp \
+  -e NODE_OPTIONS=--dns-result-order=ipv4first -p 31306:4321 -v $PWD:/app -w /app \
+  node:22-bookworm npx astro dev --host 0.0.0.0 --port 4321
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`NODE_OPTIONS=--dns-result-order=ipv4first` hace falta dentro de Docker: sin él, `astro build` falla en
+"generating static routes" con `ECONNREFUSED 127.0.0.1`, porque el prerender de Cloudflare escucha en
+`localhost` por IPv6. En Cloudflare no hace falta.

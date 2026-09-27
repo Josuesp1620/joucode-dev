@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Marca API SERVICE SAC: azul sobre gris claro, Archivo (la de apiservicesac.com) e IBM Plex Mono. */
+@theme {
+  --color-fondo: #f5f7fa;
+  --color-tarjeta: #ffffff;
+  --color-borde: #dfe5ec;
+  --color-tinta: #0a0f18;
+  --color-tinta2: #48566a;
+  --color-tenue: #7b8899;
+  --color-azul: #1064ea;
+  --color-azulOscuro: #0b47a8;
+  --color-azulSuave: #e7effd;
+
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --container-contenido: 1120px;
+}
+
+@layer base {
+  /* Tailwind 4 usa currentColor en los bordes; aquí el borde por defecto es el de la marca. */
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-borde, currentColor);
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: var(--color-azul);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-azul);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
