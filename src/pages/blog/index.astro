@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 import Cabecera from '../../components/blog/Cabecera.astro';
 import Pie from '../../components/blog/Pie.astro';
 import Icono from '../../components/Icono.astro';
-import { ARTICULOS } from '../../data/blog';
+import { ARTICULOS_INDICE } from '../../data/blog';
 import portada from '../../assets/blog/s1-code/fig22-s1grep-v01.png';
 
 const PORTADAS: Record<string, ImageMetadata> = { 's1-code-y-s1grep': portada };
@@ -21,7 +21,7 @@ const PORTADAS: Record<string, ImageMetadata> = { 's1-code-y-s1grep': portada };
     </p>
 
     <div class="mt-14 grid gap-8">
-      {ARTICULOS.map((articulo) => (
+      {ARTICULOS_INDICE.map((articulo) => (
         <a href={`/blog/${articulo.slug}`} class="group grid items-center gap-8 rounded-3xl border border-borde bg-tarjeta p-6 transition hover:border-azul/40 md:grid-cols-[1fr_1.05fr] md:p-8">
           <div>
             <div class="flex flex-wrap gap-2">

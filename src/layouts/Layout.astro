@@ -5,12 +5,15 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  lang?: 'es' | 'en';
+  /** The same page in other languages, for search engines. */
+  alternates?: { lang: 'es' | 'en'; href: string }[];
 }
-const { title, description } = Astro.props;
+const { title, description, lang = 'es', alternates = [] } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,6 +21,7 @@ const { title, description } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/marca/josue.jpg" />
+    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />)}
     <link rel="icon" type="image/png" href="/marca/api-service-sac.png" />
     <Font cssVariable="--font-archivo" preload />
     <Font cssVariable="--font-plex-mono" />

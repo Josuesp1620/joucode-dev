@@ -1,6 +1,15 @@
 ---
 import Icono from '../Icono.astro';
 import { PERSONA } from '../../data/perfil';
+
+interface Props {
+  idioma?: 'es' | 'en';
+}
+const { idioma = 'es' } = Astro.props;
+const TEXTOS = {
+  es: { inicio: 'Inicio', contacto: 'Conversemos' },
+  en: { inicio: 'Home', contacto: "Let's talk" },
+}[idioma];
 ---
 
 <header class="sticky top-0 z-50 border-b border-borde bg-fondo/85 backdrop-blur">
@@ -10,10 +19,10 @@ import { PERSONA } from '../../data/perfil';
       <span class="font-bold">{PERSONA.nombre}</span>
     </a>
     <nav class="flex items-center gap-6 text-sm text-tinta2">
-      <a href="/" class="hidden hover:text-tinta sm:inline">Inicio</a>
+      <a href="/" class="hidden hover:text-tinta sm:inline">{TEXTOS.inicio}</a>
       <a href="/blog" class="font-semibold text-tinta hover:text-azul">Blog</a>
       <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl bg-azul px-4 py-2 text-sm font-semibold text-white transition hover:bg-azulOscuro">
-        <Icono nombre="whatsapp" /> <span class="hidden sm:inline">Conversemos</span>
+        <Icono nombre="whatsapp" /> <span class="hidden sm:inline">{TEXTOS.contacto}</span>
       </a>
     </nav>
   </div>
