@@ -1,0 +1,20 @@
+---
+import Icono from '../Icono.astro';
+import { PERSONA } from '../../data/perfil';
+---
+
+<header class="sticky top-0 z-50 border-b border-borde bg-fondo/85 backdrop-blur">
+  <div class="mx-auto flex h-16 max-w-contenido items-center justify-between gap-6 px-5 md:px-8">
+    <a href="/" class="flex items-center gap-2.5">
+      <img src={PERSONA.foto} alt="" class="h-8 w-8 rounded-full" width="32" height="32" />
+      <span class="font-bold">{PERSONA.nombre}</span>
+    </a>
+    <nav class="flex items-center gap-6 text-sm text-tinta2">
+      <a href="/" class="hidden hover:text-tinta sm:inline">Inicio</a>
+      <a href="/blog" class="font-semibold text-tinta hover:text-azul">Blog</a>
+      <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl bg-azul px-4 py-2 text-sm font-semibold text-white transition hover:bg-azulOscuro">
+        <Icono nombre="whatsapp" /> <span class="hidden sm:inline">Conversemos</span>
+      </a>
+    </nav>
+  </div>
+</header>

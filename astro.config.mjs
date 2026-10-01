@@ -6,7 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
-  adapter: cloudflare({ imageService: 'compile' }),
+  // The site is fully static: pages are prerendered with Node, so the build does not depend on a local workerd.
+  adapter: cloudflare({ imageService: 'compile', prerenderEnvironment: 'node' }),
   fonts: [
     {
       provider: fontProviders.google(),

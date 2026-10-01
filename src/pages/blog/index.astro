@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import Cabecera from '../../components/blog/Cabecera.astro';
+import Pie from '../../components/blog/Pie.astro';
+import Icono from '../../components/Icono.astro';
+import { ARTICULOS } from '../../data/blog';
+import portada from '../../assets/blog/s1-code/fig22-s1grep-v01.png';
+
+const PORTADAS: Record<string, ImageMetadata> = { 's1-code-y-s1grep': portada };
+---
+
+<Layout title="Blog · Josue Salazar" description="Casos de estudio y notas técnicas de Josue Salazar, fundador y CEO de API SERVICE SAC: modelos propios, IA aplicada y producto.">
+  <Cabecera />
+  <main class="mx-auto max-w-contenido px-5 pb-24 pt-14 md:px-8">
+    <p class="font-mono text-xs font-medium tracking-[0.18em] text-azul">BLOG</p>
+    <h1 class="mt-3 max-w-2xl text-4xl font-extrabold leading-tight md:text-5xl">Casos de estudio, medidos de principio a fin.</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-tinta2">
+      Lo que construimos, cómo lo medimos y qué aprendimos, con las cifras reales, incluidas las que no salieron como esperábamos.
+    </p>
+
+    <div class="mt-14 grid gap-8">
+      {ARTICULOS.map((articulo) => (
+        <a href={`/blog/${articulo.slug}`} class="group grid items-center gap-8 rounded-3xl border border-borde bg-tarjeta p-6 transition hover:border-azul/40 md:grid-cols-[1fr_1.05fr] md:p-8">
+          <div>
+            <div class="flex flex-wrap gap-2">
+              {articulo.etiquetas.map((etiqueta) => (
+                <span class="rounded-full bg-azulSuave px-2.5 py-1 font-mono text-[11px] font-medium tracking-wider text-azulOscuro">{etiqueta.toUpperCase()}</span>
+              ))}
+            </div>
+            <h2 class="mt-4 text-2xl font-extrabold leading-snug group-hover:text-azul md:text-3xl">{articulo.titulo}</h2>
+            <p class="mt-4 text-[15px] leading-relaxed text-tinta2">{articulo.resumen}</p>
+            <p class="mt-5 font-mono text-xs text-tenue">{articulo.fechaTexto} · {articulo.lectura}</p>
+            <span class="mt-6 inline-flex items-center gap-2 font-semibold text-azul">Leer el caso <Icono nombre="flecha" /></span>
+          </div>
+          {PORTADAS[articulo.slug] && (
+            <div class="overflow-hidden rounded-2xl border border-borde bg-[#fcfcfb]">
+              <Image src={PORTADAS[articulo.slug]} alt="" widths={[640, 960]} sizes="(min-width: 860px) 540px, 100vw" class="h-auto w-full transition duration-500 group-hover:scale-[1.02]" />
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+  </main>
+  <Pie />
+</Layout>

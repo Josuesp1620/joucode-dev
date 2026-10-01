@@ -1,0 +1,378 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Cabecera from '../../components/blog/Cabecera.astro';
+import Pie from '../../components/blog/Pie.astro';
+import Figura from '../../components/blog/Figura.astro';
+import Icono from '../../components/Icono.astro';
+import { ARTICULOS, ENLACES_S1 } from '../../data/blog';
+import { PERSONA } from '../../data/perfil';
+
+import experimentoLaya from '../../assets/blog/s1-code/fig1-experimento-laya.png';
+import experimentoEmbeddings from '../../assets/blog/s1-code/fig2-experimento-embeddings.png';
+import brechaIdioma from '../../assets/blog/s1-code/fig3-idiomas.png';
+import costoCalidad from '../../assets/blog/s1-code/fig4-costo-calidad.png';
+import latencia from '../../assets/blog/s1-code/fig5-latencia-cpu.png';
+import entrenamientoV1 from '../../assets/blog/s1-code/fig7-entrenamiento.png';
+import examenV1 from '../../assets/blog/s1-code/fig8-examen.png';
+import dificultad from '../../assets/blog/s1-code/fig9-dificultad.png';
+import validacionV1 from '../../assets/blog/s1-code/fig10-validacion.png';
+import testV2 from '../../assets/blog/s1-code/fig11-test-v2.png';
+import idiomasV2 from '../../assets/blog/s1-code/fig12-idiomas-v2.png';
+import entrenamientoV2 from '../../assets/blog/s1-code/fig13-entrenamiento-v2.png';
+import datosV2 from '../../assets/blog/s1-code/fig14-datos-v2.png';
+import practicaRealidad from '../../assets/blog/s1-code/fig15-practica-realidad-v2.png';
+import tiposV2 from '../../assets/blog/s1-code/fig16-tipos-v2.png';
+import prediccionV2 from '../../assets/blog/s1-code/fig17-prediccion-v2.png';
+import rivalesV3 from '../../assets/blog/s1-code/fig18-rivales-v3.png';
+import entrenamientoV3 from '../../assets/blog/s1-code/fig19-entrenamiento-v3.png';
+import evolucionV3 from '../../assets/blog/s1-code/fig20-evolucion-v3.png';
+import capacidadGeneral from '../../assets/blog/s1-code/fig21-capacidad-general.png';
+import resultadoV01 from '../../assets/blog/s1-code/fig22-s1grep-v01.png';
+import lenguajes from '../../assets/blog/s1-code/fig23-lenguajes.png';
+import velocidad from '../../assets/blog/s1-code/fig24-velocidad.png';
+
+const articulo = ARTICULOS.find((entrada) => entrada.slug === 's1-code-y-s1grep')!;
+
+const CIFRAS = [
+  { valor: '168 / 201', texto: 'búsquedas reales con la función correcta en 1.er lugar (los embeddings solos: 145)' },
+  { valor: '83 % · 85 %', texto: 'acierto en inglés y en español: el idioma de la pregunta casi no importa' },
+  { valor: '1,3 s', texto: 'por búsqueda en una CPU común, sin GPU ni nube' },
+  { valor: '322M', texto: 'parámetros: s1-code v3, abierto bajo Apache 2.0' },
+];
+
+const INDICE = [
+  { id: 'resumen', texto: 'En corto' },
+  { id: 'pregunta', texto: 'La pregunta' },
+  { id: 'system-one', texto: 'Qué es un modelo System One' },
+  { id: 'exploracion', texto: '1 · Medir antes de construir' },
+  { id: 'ingenieria', texto: '2 · Sacar el modelo de Python' },
+  { id: 'datos', texto: '3 · Construir los datos' },
+  { id: 'v1', texto: '4 · s1-code v1' },
+  { id: 'v2', texto: '5 · s1-code v2' },
+  { id: 'v3', texto: '6 · s1-code v3' },
+  { id: 's1grep', texto: '7 · s1grep, el producto' },
+  { id: 'lenguajes', texto: '8 · Otros lenguajes' },
+  { id: 'lecciones', texto: 'Lecciones' },
+  { id: 'limites', texto: 'Límites y costos' },
+  { id: 'siguiente', texto: 'Lo que sigue' },
+  { id: 'recursos', texto: 'Recursos' },
+];
+
+const boton = 'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition';
+---
+
+<Layout title={`${articulo.titulo} · Josue Salazar`} description={articulo.resumen}>
+  <Cabecera />
+
+  <main>
+    <!-- Article header -->
+    <section class="border-b border-borde bg-tarjeta">
+      <div class="mx-auto max-w-contenido px-5 pb-14 pt-12 md:px-8 md:pt-16">
+        <a href="/blog" class="inline-flex items-center gap-2 font-mono text-xs font-medium tracking-[0.18em] text-azul hover:underline">← BLOG · CASO DE ESTUDIO</a>
+        <h1 class="mt-5 max-w-4xl text-4xl font-extrabold leading-[1.08] md:text-[3.4rem]">{articulo.titulo}</h1>
+        <p class="mt-6 max-w-3xl text-lg leading-relaxed text-tinta2 md:text-xl">{articulo.resumen}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <div class="flex items-center gap-3">
+            <img src={PERSONA.foto} alt="" class="h-10 w-10 rounded-full" width="40" height="40" />
+            <div class="leading-tight">
+              <p class="font-bold">{PERSONA.nombre}</p>
+              <p class="text-sm text-tenue">Fundador y CEO · API SERVICE SAC</p>
+            </div>
+          </div>
+          <span class="hidden h-8 w-px bg-borde sm:block" aria-hidden="true" />
+          <p class="font-mono text-xs text-tenue">{articulo.fechaTexto} · {articulo.lectura}</p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={ENLACES_S1.modeloV3} target="_blank" rel="noopener" class={`${boton} bg-tinta text-white hover:bg-azul`}>s1-code v3 en Hugging Face <Icono nombre="externo" /></a>
+          <a href={ENLACES_S1.s1grep} target="_blank" rel="noopener" class={`${boton} border border-borde bg-fondo hover:border-tinta/30`}><Icono nombre="github" /> s1grep en GitHub</a>
+        </div>
+        <dl class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {CIFRAS.map((cifra) => (
+            <div class="rounded-2xl border border-borde bg-fondo p-5">
+              <dt class="text-2xl font-extrabold tabular-nums text-tinta md:text-3xl">{cifra.valor}</dt>
+              <dd class="mt-2 text-sm leading-snug text-tinta2">{cifra.texto}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <div class="mx-auto grid max-w-contenido gap-12 px-5 pb-24 pt-12 md:px-8 lg:grid-cols-[220px_minmax(0,1fr)]">
+      <!-- Table of contents -->
+      <aside class="hidden lg:block">
+        <nav class="sticky top-24" aria-label="Índice del artículo">
+          <p class="font-mono text-[11px] font-medium tracking-[0.18em] text-tenue">CONTENIDO</p>
+          <ol class="mt-4 space-y-2 border-l border-borde text-sm">
+            {INDICE.map((entrada) => (
+              <li><a href={`#${entrada.id}`} class="-ml-px block border-l border-transparent pl-4 text-tinta2 hover:border-azul hover:text-tinta">{entrada.texto}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+
+      <article class="prosa min-w-0 max-w-[760px]">
+        <h2 id="resumen" style="margin-top:0">En corto</h2>
+        <ul>
+          <li><strong>Laya, un modelo System One abierto, no sabía juzgar código</strong>: acertó 1 de 20 búsquedas, como el azar. Lo medimos en una tarde antes de construir nada sobre él.</li>
+          <li><strong>Entrenamos nuestro propio modelo, s1-code</strong>, en tres versiones. La v3 acierta 161 de 197 búsquedas reales nunca vistas por sí sola, frente a 144 de la v1 (p = 0,002) y 152 de Qwen3-Embedding.</li>
+          <li><strong>Construimos s1grep</strong>, un buscador local en Rust: encuentra la función correcta en 1.er lugar en 168 de 201 búsquedas reales, contra 145 de los embeddings solos, en inglés y en español por igual.</li>
+          <li><strong>No todo salió bien</strong>: la v3 no supera con seguridad a la v2, los modelos grandes con GPU siguen siendo mejores jueces y, en otros lenguajes, el juez ayuda en Java pero empeora JavaScript y Go. Todo eso está medido y contado aquí.</li>
+        </ul>
+
+        <h2 id="pregunta">La pregunta</h2>
+        <p>
+          Los agentes de programación y las personas pierden mucho tiempo buscando <em>dónde</em> está algo en un repositorio. grep encuentra palabras, no intenciones: si preguntas "dónde se reintenta un pago fallido", la función puede llamarse <code>send_with_retry</code> y no contener ninguna palabra de tu pregunta.
+        </p>
+        <p>
+          Herramientas como <a href="https://github.com/dzhng/jevgrep" target="_blank" rel="noopener">jevgrep</a> resuelven esto enviando tu código a un modelo en la nube. Nuestra pregunta fue otra:
+        </p>
+        <blockquote>
+          ¿Se puede construir una alternativa local, abierta y bilingüe (inglés y español) que encuentre código por lo que hace usando modelos System One y funcione en una CPU común?
+        </blockquote>
+        <p>La respuesta corta es <strong>sí, con matices</strong>. Este artículo cuenta los 18 pasos que llevaron hasta ahí, con lo que funcionó y lo que no.</p>
+
+        <h2 id="system-one">Qué es un modelo System One</h2>
+        <p>
+          Un modelo System One no escribe texto. Recibe un documento y preguntas <em>tipadas</em> (elegir entre opciones, verdadero o falso, o una escala) y devuelve probabilidades en una sola pasada. Por eso es rápido, no "alucina" y sus respuestas se pueden calibrar: un 90 % debería acertar 9 de cada 10 veces.
+        </p>
+        <p>s1-code recibe una función y una pregunta, y responde con la probabilidad de que esa función responda la búsqueda:</p>
+        <pre><code>[CLS] noul question: This code answers the search: dónde se reintenta un pago fallido [SEP]
+      [MASK] no  [MASK] sí [SEP]
+billing/gateway/client.py
+GatewayClient.send_with_retry
+
+def send_with_retry(self, document, attempts=3): ... [SEP]
+→ sí: 0,93</code></pre>
+        <p>
+          Partimos de <a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener">Laya</a> (Convai Innovations, Apache 2.0), un modelo System One multilingüe de 322 millones de parámetros. s1-code es Laya ajustado para una sola tarea: decidir si un código responde una búsqueda. Técnicamente es un System One usado en el papel de <em>reranker</em>.
+        </p>
+
+        <h2 id="exploracion">Fase 1 · Medir antes de construir</h2>
+        <h3>¿Laya entiende código?</h3>
+        <p>
+          Antes de escribir el buscador hicimos una prueba barata: 20 preguntas sobre 1 531 funciones de repositorios privados de servicios backend en Python. Un buscador por palabras (BM25) eligió 25 candidatas y Laya las ordenó con cuatro formas distintas de preguntar.
+        </p>
+        <Figura imagen={experimentoLaya} alt="Gráfico de barras: BM25 acierta 13 de 20 y Laya entre 0 y 1, como el azar" pie="Laya acertó 0 o 1 de 20, lo mismo que el azar; BM25 acertó 13. Además dijo «sí» con 97 % de confianza a afirmaciones falsas." />
+        <p>Conclusión: <strong>no construir sobre Laya tal cual</strong>. Esa prueba de 13 minutos evitó semanas de trabajo sobre un modelo que no servía para esto.</p>
+
+        <h3>¿Los embeddings encuentran el código?</h3>
+        <p>
+          Armamos un examen de 53 preguntas reales sacadas de commits y comparamos BM25, tres modelos de embeddings, su fusión con BM25 y dos rerankers, buscando en todas las funciones de los repositorios.
+        </p>
+        <Figura imagen={experimentoEmbeddings} alt="Tres paneles con top 1, top 5 y top 20 de siete métodos de búsqueda" pie="Los embeddings encuentran el código: Qwen3-Embedding deja la correcta entre las 5 primeras en 49 de 53. Mezclar con BM25 empeora, y los rerankers grandes ayudan poco pero cuestan hasta 27 s por búsqueda en CPU." />
+        <Figura imagen={brechaIdioma} alt="Diagrama de puntos con el acierto en inglés y en español por método" pie="La brecha de idioma: preguntar en español sobre código escrito en inglés. BM25 encuentra solo 3 de 22 preguntas en español; los embeddings multilingües cierran gran parte de esa brecha." />
+        <p>
+          Revisamos también qué existía: hay buscadores semánticos abiertos (ck, osgrep y otros), pero <strong>ninguno tiene un juez System One local entrenado para código</strong>. Ese fue el hueco que decidimos llenar.
+        </p>
+
+        <h2 id="ingenieria">Fase 2 · Sacar el modelo de Python</h2>
+        <p>Para que el producto fuera un solo binario, sin Python, había que correr el modelo con ONNX Runtime desde Rust. Cuatro hallazgos:</p>
+        <ul>
+          <li><strong>El exportador oficial estaba roto</strong>: fijaba el largo del texto en 16 tokens y fallaba con cualquier texto más largo. Con el exportador <em>dynamo</em> de PyTorch, ONNX coincide con el original en las 14 preguntas de prueba.</li>
+          <li><strong>INT8 no acelera</strong>: la cuantización dinámica lleva todas las respuestas a 0,5 y la de solo pesos conserva la calidad pero es más lenta en CPU. Nos quedamos con float32.</li>
+          <li><strong>El motor en Rust da lo mismo que Python</strong>: tokens idénticos y probabilidades a ±0,0006, también en Windows. Cada implementación nueva lleva su <em>prueba de paridad</em>.</li>
+          <li><strong>El error del bfloat16</strong>: tres modelos venían en bfloat16 y la CPU no tiene instrucciones para ese formato. En float32 indexan 5,8 veces más rápido con el mismo resultado.</li>
+        </ul>
+        <Figura imagen={latencia} alt="Barras de milisegundos por fragmento según el largo del texto en dos CPU" pie="Cuatro veces más texto cuesta seis veces más tiempo. De aquí salió el diseño de embudo: un filtro barato trae unas 25 candidatas y el juez solo lee esas, en funciones cortas, no archivos enteros." />
+        <Figura imagen={costoCalidad} alt="Dispersión de calidad contra segundos de indexación, con flechas del bfloat16 al float32" pie="Calidad contra costo de indexar. Los círculos vacíos son los mismos modelos en bfloat16: igual de buenos y hasta 6 veces más lentos en CPU." />
+
+        <h2 id="datos">Fase 3 · Construir los datos</h2>
+        <p>
+          Entrenar un juez necesita miles de pares "búsqueda → función correcta". Los generamos "al revés": se elige una función y un modelo abierto (Qwen3-8B) escribe la búsqueda que haría alguien que la necesita, en inglés o en español y en uno de seis estilos. Un filtro descarta las que repiten el nombre de la función.
+        </p>
+        <div class="tabla"><table>
+          <thead><tr><th>Datos de la v1</th><th>Cantidad</th></tr></thead>
+          <tbody>
+            <tr><td>Repositorios públicos de Python con licencia permisiva</td><td class="num">306</td></tr>
+            <tr><td>Funciones únicas, sin tests ni ejemplos</td><td class="num">799 635</td></tr>
+            <tr><td>Preguntas aceptadas (83 %)</td><td class="num">30 068</td></tr>
+            <tr><td>Ejemplos de entrenamiento (1 correcta y 3 trampas por pregunta)</td><td class="num">113 008</td></tr>
+            <tr><td>Preguntas de validación, de 16 repositorios nunca vistos</td><td class="num">400</td></tr>
+          </tbody>
+        </table></div>
+        <p>
+          Revisar dos muestras de 50 preguntas a mano, que costaron centavos, detectó frases de plantilla, tests colados y preguntas genéricas. Corregirlas antes de generar las 36 000 subió la aceptación de 80 % a 87 %.
+        </p>
+        <p>
+          Para enseñarle a decir "no", cada pregunta lleva <strong>trampas difíciles</strong>: las funciones más parecidas del mismo repositorio que no son la correcta.
+        </p>
+        <Figura imagen={dificultad} alt="Barras que comparan la dificultad de las preguntas generadas y las reales" pie="Las preguntas generadas resultaron más difíciles que las reales: granite deja la correcta en 1.er lugar en el 50 % de las generadas y en el 66 % de las del examen." />
+
+        <h2 id="v1">Fase 4 · s1-code v1</h2>
+        <p>
+          Ajuste fino de Laya multilingüe con la receta de sus autores, 2 épocas en una GPU NVIDIA L4 en la nube (93 minutos) y calibración con 1 000 ejemplos apartados. Antes de entrenar fijamos el criterio: superar a granite solo (35 de 53) y la meta: 44.
+        </p>
+        <Figura imagen={entrenamientoV1} alt="Curva de pérdida del entrenamiento de la v1" pie="La pérdida baja de 0,45 a 0,13. La caída brusca al empezar la época 2 es normal, pero también es la señal típica de que puede empezar a memorizar." />
+        <Figura imagen={validacionV1} alt="Barras de acierto en validación de granite, Laya y s1-code v1" pie="En 400 preguntas de repositorios nunca vistos, s1-code v1 sube de 51 % a 80 % y rinde igual en inglés y en español: aprendió a juzgar código, no memorizó repositorios." />
+        <Figura imagen={examenV1} alt="Barras con el resultado del examen original de 53 preguntas" pie="Con preguntas reales de commits la mejora se reduce: 38 de 53, por encima del criterio (35) y lejos de la meta (44)." />
+        <p>
+          Después hicimos el examen más grande: 202 preguntas reales divididas en <strong>dev</strong> (100, para decidir) y <strong>test</strong> (102, se abre una sola vez). Y cambiamos de rival: un juez en cascada tiene que ganarle al buscador barato <em>más fuerte</em>, Qwen3-Embedding, no al más débil. Con ese rival, la ventaja de la v1 dejó de ser segura.
+        </p>
+
+        <h2 id="v2">Fase 5 · s1-code v2: más datos, paridad exacta</h2>
+        <p>
+          La v2 sumó fuentes con preguntas escritas por personas y licencia verificada: mensajes de commit (CommitPackFT), issues ligados a la función corregida (SWE-bench, SWE-Gym, SWE-smith), búsquedas humanas (CoSQA) y funciones de repositorios privados de la organización, filtradas por secretos y datos personales. Cada pregunta recibió una gemela en el otro idioma.
+        </p>
+        <Figura imagen={datosV2} alt="Barras por fuente de datos y proporción de idiomas en v1 y v2" pie="81 412 preguntas de entrenamiento, exactamente mitad en inglés y mitad en español: 2,9 veces más ejemplos que la v1." />
+        <Figura imagen={entrenamientoV2} alt="Curva de pérdida del entrenamiento de la v2" pie="Entrenamiento de la v2 en una A100 (64 minutos). La segunda época empeoró dev: memorizaba, así que usamos la primera." />
+        <p>
+          En validación la v2 parecía muy superior (315 contra 269 de 400). Al desglosar por tipo de pregunta apareció un <strong>atajo</strong>: en las preguntas de CoSQA acertaba el 100 %, porque reconocía el estilo de la respuesta correcta, no la búsqueda.
+        </p>
+        <Figura imagen={tiposV2} alt="Barras de acierto en validación por tipo de pregunta" pie="El 100 % en CoSQA era un atajo del conjunto de datos. Sin esas preguntas, v1 y v2 empatan (266 contra 268 de 353; p = 0,89)." />
+        <Figura imagen={prediccionV2} alt="Comparación entre la predicción escrita antes y lo medido" pie="La predicción escrita antes de abrir test (juez 74–78, combinado con Qwen3 82–86, sin diferencia segura con la v1) se cumplió: 74, 83 y p = 0,34." />
+        <Figura imagen={testV2} alt="Barras con el test de 102 preguntas por sistema" pie="Test anterior, abierto una sola vez: v2 + Qwen3 acierta 86 de 102 contra 80 de Qwen3 solo, pero la diferencia no es estadísticamente segura (p = 0,21)." />
+        <Figura imagen={idiomasV2} alt="Barras de acierto por idioma en test" pie="Lo que sí logró la v2: cero puntos de brecha entre inglés y español (84 % y 84 %)." />
+        <Figura imagen={practicaRealidad} alt="Barras por conjunto e idioma comparando validación y examen real" pie="La práctica y la realidad: las preguntas generadas y las reales no se comportan igual, por eso todas las decisiones se tomaron con preguntas reales." />
+        <p><strong>Veredicto honesto de la v2</strong>: fue un buen trabajo de investigación y un empate como modelo. Lo que mejoró de verdad fue nuestra capacidad de saberlo.</p>
+
+        <h2 id="v3">Fase 6 · s1-code v3: un maestro y control de memorización</h2>
+        <p>
+          Analizamos los 25 fallos de la v2: 12 dejaban la correcta en 2.º lugar y 9 se confundían con un método hermano de la misma clase. Probamos cuatro candidatos a <strong>maestro</strong> con las mismas preguntas. El mejor fue Qwen3-Reranker-4B (89 de 100 en dev); el más llamativo, Nimble de 9B, quedó por debajo. Elegir maestro con una prueba costó menos de 1 USD.
+        </p>
+        <p>La v3 se entrenó con:</p>
+        <ul>
+          <li>72 332 grupos de 1 correcta y 7 trampas sacadas del buscador real (Qwen3-Embedding), con paridad exacta de idioma.</li>
+          <li>Una pérdida que pone a competir la correcta contra sus trampas.</li>
+          <li>Notas del maestro en 20 000 grupos, mezcladas 50/50 con las etiquetas reales.</li>
+          <li>Control de memorización cada 1 000 pasos y parada temprana.</li>
+        </ul>
+        <Figura imagen={entrenamientoV3} alt="Curvas de validación, datos ya vistos y sobreconfianza durante el entrenamiento de la v3" pie="La validación subió de 72 % a 82 % en el paso 13 000 y se estancó; la parada temprana cortó en el 17 000 y restauró el 13 000. La brecha de memorización se mantuvo estable y la sobreconfianza por debajo de 1 %." />
+        <p>Para medirla, agentes escribieron un <strong>test nuevo</strong> de 197 preguntas sobre funciones que no aparecían en ningún examen anterior. Se abrió una sola vez, con la predicción escrita antes.</p>
+        <Figura imagen={rivalesV3} alt="Barras con intervalos de confianza de s1-code v3 frente a maestros y rivales" pie="s1-code v3 frente a maestros y rivales en el test nuevo. Los modelos de 4 000 y 9 000 millones de parámetros siguen arriba, pero necesitan GPU." />
+        <div class="tabla"><table>
+          <thead><tr><th>Sistema</th><th>Tamaño</th><th>1.er lugar (de 197)</th><th>Inglés</th><th>Español</th></tr></thead>
+          <tbody>
+            <tr><td>Qwen3-Reranker-4B (maestro)</td><td>4 000M · GPU</td><td class="num">183</td><td class="num">91 %</td><td class="num">95 %</td></tr>
+            <tr><td>Nimble</td><td>9 000M · GPU</td><td class="num">177</td><td class="num">90 %</td><td class="num">90 %</td></tr>
+            <tr class="destacada"><td>s1-code v3 + Qwen3-Embedding</td><td>322M · CPU</td><td class="num">168</td><td class="num">85 %</td><td class="num">85 %</td></tr>
+            <tr><td>s1-code v2 + Qwen3-Embedding</td><td>322M · CPU</td><td class="num">165</td><td class="num">83 %</td><td class="num">84 %</td></tr>
+            <tr class="destacada"><td>s1-code v3, juez solo</td><td>322M · CPU</td><td class="num">161</td><td class="num">82 %</td><td class="num">81 %</td></tr>
+            <tr><td>jina-reranker-v2 (no comercial)</td><td>278M · CPU</td><td class="num">158</td><td class="num">78 %</td><td class="num">82 %</td></tr>
+            <tr><td>Qwen3-Embedding solo</td><td>600M</td><td class="num">152</td><td class="num">76 %</td><td class="num">78 %</td></tr>
+            <tr><td>s1-code v1, juez solo</td><td>322M · CPU</td><td class="num">144</td><td class="num">68 %</td><td class="num">78 %</td></tr>
+          </tbody>
+        </table></div>
+        <Figura imagen={evolucionV3} alt="Evolución del juez de la v1 a la v3" pie="El progreso real está en el juez por sí solo: de 144 a 161 de la v1 a la v3 (p = 0,002), con la brecha de idioma de 11 puntos a 0. Entre versiones consecutivas, la mejora es demasiado pequeña para el tamaño del examen." />
+        <p>
+          <strong>Contra la regla fijada antes</strong>: la v3 debía ganarle con seguridad a la v2 y a Qwen3 solo. Le gana a Qwen3 solo (p = 0,0015) pero no a la v2 (p = 0,65). La regla completa no se cumplió, tal como anticipaba la predicción escrita (alrededor de 30 % de probabilidad).
+        </p>
+        <Figura imagen={capacidadGeneral} alt="Barras de acierto en decisiones generales de Laya base y s1-code" pie="Una prueba extra: en 2 000 decisiones que no son de código, Laya base acierta 35 % y s1-code baja a 27–29 %. s1-code es un especialista en relevancia de código, no un System One general." />
+
+        <h2 id="s1grep">Fase 7 · s1grep: el producto</h2>
+        <p>Con el modelo congelado, construimos el buscador alrededor de él. Funciona en cuatro pasos, todos en tu CPU:</p>
+        <ol>
+          <li><strong>Indexar</strong>: tree-sitter parte cada archivo de Python en funciones y métodos; granite convierte cada una en un vector y se guarda en SQLite, fuera del repositorio. Solo se vuelven a leer los archivos que cambiaron.</li>
+          <li><strong>Buscar</strong>: la pregunta se convierte en vector y salen las 25 funciones más cercanas.</li>
+          <li><strong>Juzgar</strong>: s1-code v3 lee las 5 primeras y responde con una probabilidad.</li>
+          <li><strong>Combinar</strong>: el orden del juez y el del buscador se fusionan con pesos elegidos en dev, nunca en test.</li>
+        </ol>
+        <Figura imagen={resultadoV01} alt="Barras de granite solo contra s1grep v0.1 por idioma" pie="s1grep v0.1 en el test de 201 búsquedas reales: 168 en 1.er lugar contra 145 de los embeddings solos, y 189 entre los 5 primeros. Inglés y español quedan parejos." />
+        <h3>Velocidad</h3>
+        <p>
+          Leer más texto no ayudaba: recortar lo que lee el juez a 256 o 192 tokens lo hace más rápido pero baja el acierto por debajo de no usarlo, porque se entrenó leyendo 384. Lo que sí funcionó fue juzgar las candidatas una por una en vez de en lote (25 % más rápido, mismas respuestas) y dejar los modelos cargados en memoria.
+        </p>
+        <Figura imagen={velocidad} alt="Barras de segundos por búsqueda sin y con el servidor local" pie="La mayor parte del tiempo era cargar 2,4 GB de modelos en cada búsqueda. Con s1grep serve los modelos se quedan en memoria y cada búsqueda baja a 1,3 s." />
+        <h3>Cómo se usa</h3>
+        <pre><code>s1grep setup                                     # descarga los modelos, una sola vez
+s1grep "dónde se reintenta un pago fallido" .    # buscar
+s1grep serve                                     # modelos en memoria: ~1,3 s por búsqueda
+s1grep mcp                                       # herramienta search_code para agentes
+s1grep skill --install                           # guía de uso para Claude Code</code></pre>
+        <p>
+          Es un solo binario para Linux y Windows. Funciona con agentes de programación por MCP (Claude Code, Codex, Cursor) y el servidor local solo escucha en tu máquina, con una clave que únicamente tu usuario puede leer.
+        </p>
+
+        <h2 id="lenguajes">Fase 8 · ¿Sirve para otros lenguajes?</h2>
+        <p>
+          s1-code se entrenó solo con Python. Para saber si sirve en otros lenguajes, armamos un examen con CodeSearchNet: 100 búsquedas por lenguaje sobre repositorios públicos, con granite trayendo las candidatas del mismo repositorio.
+        </p>
+        <Figura imagen={lenguajes} alt="Flechas por lenguaje que muestran el cambio de acierto al usar el juez" pie="El juez ayuda en Java (+10) y PHP (+3), no cambia nada en Ruby y empeora JavaScript (−8) y Go (−6). Con 100 preguntas por lenguaje cada diferencia tiene un margen de unos ±9 puntos." />
+        <p>
+          Nuestra predicción, escrita antes, decía que ningún lenguaje quedaría por debajo de granite solo. <strong>Falló en dos.</strong> Por eso la v0.1 de s1grep es solo para Python, y los siguientes lenguajes llegarán con un modelo entrenado también con ellos.
+        </p>
+
+        <h2 id="lecciones">Lecciones de método</h2>
+        <ol>
+          <li><strong>Medir antes de construir.</strong> Una prueba de 20 preguntas evitó construir sobre un modelo que no servía.</li>
+          <li><strong>Cada implementación nueva necesita su prueba de paridad.</strong> ONNX, Rust, Windows e INT8 "cargaban sin error"; solo la comparación con el original mostró cuáles daban lo mismo.</li>
+          <li><strong>El examen no debe escribirse leyendo la respuesta.</strong> Las preguntas escritas mirando el código favorecían a la búsqueda por palabras.</li>
+          <li><strong>Revisar muestras antes de escalar.</strong> Dos muestras de 50 preguntas corrigieron defectos que habrían contaminado 36 000.</li>
+          <li><strong>Un juez tiene que ganarle al rival barato más fuerte.</strong> Superar al más débil parecía un éxito y no lo era.</li>
+          <li><strong>Escribir la predicción antes del resultado</strong> y abrir el test una sola vez. Con 100 preguntas, 9 aciertos de diferencia pueden ser azar.</li>
+          <li><strong>Desglosar antes de celebrar.</strong> Un salto de 269 a 315 venía entero de un atajo del conjunto de datos.</li>
+          <li><strong>Vigilar la memorización mientras se entrena</strong>, no después, y quedarse con el mejor punto.</li>
+          <li><strong>Elegir al maestro con una prueba.</strong> El modelo más llamativo no fue el mejor.</li>
+          <li><strong>Diseñar para que la nube falle.</strong> El proveedor apagó GPUs dos veces a mitad de una corrida; guardar cada resultado al llegar convirtió eso en minutos perdidos, no en horas.</li>
+        </ol>
+
+        <h2 id="limites">Límites y costos</h2>
+        <ul>
+          <li>Los exámenes tienen 200 preguntas: detectan diferencias de unos 10 aciertos, no menores.</li>
+          <li>Si el buscador no trae la función correcta entre las candidatas, el juez no puede rescatarla.</li>
+          <li>Los modelos grandes con GPU siguen siendo mejores jueces; s1-code gana en tamaño, CPU, paridad de idioma, licencia y privacidad.</li>
+          <li>Solo Python por ahora, y la primera indexación de un repositorio grande toma minutos.</li>
+          <li>Los repositorios privados usados para el examen y parte del entrenamiento no se publican; se describen solo en conjunto.</li>
+          <li>Todavía no medimos el efecto en un agente real (tokens o tiempo ahorrados), que es la comparación que hace jevgrep.</li>
+        </ul>
+        <div class="tabla"><table>
+          <thead><tr><th>Costo de GPU en la nube</th><th>USD (estimado)</th></tr></thead>
+          <tbody>
+            <tr><td>s1-code v1: preguntas, vectores, entrenamiento (L4) y evaluación</td><td class="num">4–5</td></tr>
+            <tr><td>s1-code v2: preguntas (4 L4), vectores, entrenamiento (A100, 64 min) y evaluación</td><td class="num">10–11</td></tr>
+            <tr><td>s1-code v3: vectores, maestro 4B, prueba de rivales, entrenamiento (A100, 73 min)</td><td class="num">8–10</td></tr>
+            <tr><td>s1grep: desarrollo y todas las mediciones en CPU</td><td class="num">0</td></tr>
+            <tr class="destacada"><td>Total</td><td class="num">22–26</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2 id="siguiente">Lo que sigue</h2>
+        <ul>
+          <li><strong>s1grep v0.2</strong>: más lenguajes (JavaScript y TypeScript, Go, Java, PHP), con juez solo donde está medido que ayuda.</li>
+          <li><strong>Un modelo System One propio y general</strong>, más ligero que Laya, que sirva de base para los especialistas.</li>
+          <li><strong>s1-code v4</strong> sobre esa base: varios lenguajes desde el inicio y entradas más cortas para responder en menos de 1 s.</li>
+          <li><strong>Medir con agentes reales</strong>, con las mismas tareas que usa jevgrep.</li>
+        </ul>
+        <p>Cada versión se publica solo si le gana a la anterior en el examen. Si no, se cuenta igual.</p>
+
+        <h2 id="recursos">Recursos</h2>
+        <div class="not-prosa mt-6 grid gap-3 sm:grid-cols-2">
+          <a href={ENLACES_S1.modeloV3} target="_blank" rel="noopener" class="rounded-2xl border border-borde bg-tarjeta p-5 no-underline transition hover:border-azul/40">
+            <p class="font-mono text-[11px] font-medium tracking-wider text-tenue">HUGGING FACE</p>
+            <p class="mt-1 font-bold text-tinta">s1-code v3 · recomendado</p>
+            <p class="mt-1 text-sm text-tinta2">Pesos, versión ONNX y model card.</p>
+          </a>
+          <a href={ENLACES_S1.s1grep} target="_blank" rel="noopener" class="rounded-2xl border border-borde bg-tarjeta p-5 no-underline transition hover:border-azul/40">
+            <p class="font-mono text-[11px] font-medium tracking-wider text-tenue">GITHUB</p>
+            <p class="mt-1 font-bold text-tinta">s1grep</p>
+            <p class="mt-1 text-sm text-tinta2">Código en Rust, binarios y documentación.</p>
+          </a>
+          <a href={ENLACES_S1.modeloV2} target="_blank" rel="noopener" class="rounded-2xl border border-borde bg-tarjeta p-5 no-underline transition hover:border-azul/40">
+            <p class="font-mono text-[11px] font-medium tracking-wider text-tenue">HUGGING FACE</p>
+            <p class="mt-1 font-bold text-tinta">s1-code v2</p>
+            <p class="mt-1 text-sm text-tinta2">Paridad exacta de idioma.</p>
+          </a>
+          <a href={ENLACES_S1.modeloV1} target="_blank" rel="noopener" class="rounded-2xl border border-borde bg-tarjeta p-5 no-underline transition hover:border-azul/40">
+            <p class="font-mono text-[11px] font-medium tracking-wider text-tenue">HUGGING FACE</p>
+            <p class="mt-1 font-bold text-tinta">s1-code v1</p>
+            <p class="mt-1 text-sm text-tinta2">La primera versión.</p>
+          </a>
+        </div>
+        <h3>Referencias</h3>
+        <ul>
+          <li><a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener">Laya</a> (Convai Innovations, Apache 2.0), el modelo base.</li>
+          <li><a href="https://github.com/dzhng/jevgrep" target="_blank" rel="noopener">jevgrep</a> y <a href="https://github.com/Intelligent-Intern/layagrep" target="_blank" rel="noopener">layagrep</a>, las herramientas de referencia.</li>
+          <li><a href="https://huggingface.co/ibm-granite/granite-embedding-278m-multilingual" target="_blank" rel="noopener">granite-embedding-278m-multilingual</a> (IBM) y <a href="https://qwenlm.github.io/blog/qwen3-embedding/" target="_blank" rel="noopener">Qwen3 Embedding y Reranker</a>.</li>
+          <li><a href="https://huggingface.co/datasets/bigcode/commitpackft" target="_blank" rel="noopener">CommitPackFT</a>, <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench" target="_blank" rel="noopener">SWE-bench</a>, <a href="https://huggingface.co/datasets/SWE-Gym/SWE-Gym" target="_blank" rel="noopener">SWE-Gym</a>, <a href="https://huggingface.co/datasets/SWE-bench/SWE-smith" target="_blank" rel="noopener">SWE-smith</a>, <a href="https://github.com/gonglinyuan/CoSQA" target="_blank" rel="noopener">CoSQA</a> y <a href="https://huggingface.co/datasets/code-search-net/code_search_net" target="_blank" rel="noopener">CodeSearchNet</a>.</li>
+        </ul>
+
+        <div class="not-prosa mt-14 rounded-3xl bg-azul px-6 py-10 text-center text-white md:px-12">
+          <p class="text-2xl font-extrabold">¿Quieres aplicar IA en tu empresa sin enviar tus datos a la nube?</p>
+          <p class="mx-auto mt-3 max-w-lg text-white/85">En API SERVICE SAC aplicamos IA conectada a tus sistemas, medida con tus propios datos.</p>
+          <a href={PERSONA.whatsapp} target="_blank" rel="noopener" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-azul no-underline transition hover:bg-azulSuave"><Icono nombre="whatsapp" /> Conversemos</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Pie />
+</Layout>

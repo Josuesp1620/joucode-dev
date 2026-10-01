@@ -1,0 +1,18 @@
+---
+import Icono from '../Icono.astro';
+import { EMPRESA, PERSONA } from '../../data/perfil';
+---
+
+<footer class="border-t border-borde">
+  <div class="mx-auto flex max-w-contenido flex-wrap items-center justify-between gap-4 px-5 py-8 text-sm text-tenue md:px-8">
+    <p>© 2026 {PERSONA.nombre} · {PERSONA.ubicacion}</p>
+    <a href={EMPRESA.web} target="_blank" rel="noopener" class="flex items-center gap-2 font-bold tracking-wide text-tinta2 hover:text-azul">
+      <img src={EMPRESA.logo} alt="" class="h-6 w-6" width="24" height="24" /> API SERVICE SAC
+    </a>
+    <div class="flex items-center gap-4">
+      <a href={PERSONA.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:text-tinta"><Icono nombre="linkedin" clase="h-5 w-5" /></a>
+      <a href={PERSONA.github} target="_blank" rel="noopener" aria-label="GitHub" class="hover:text-tinta"><Icono nombre="github" clase="h-5 w-5" /></a>
+      <a href={PERSONA.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" class="hover:text-tinta"><Icono nombre="whatsapp" clase="h-5 w-5" /></a>
+    </div>
+  </div>
+</footer>

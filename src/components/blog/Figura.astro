@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  imagen: ImageMetadata;
+  alt: string;
+  pie?: string;
+}
+const { imagen, alt, pie } = Astro.props;
+---
+
+<figure class="figura">
+  <a href={imagen.src} target="_blank" rel="noopener" class="block overflow-hidden rounded-2xl border border-borde bg-[#fcfcfb]">
+    <Image src={imagen} alt={alt} widths={[640, 960, 1440]} sizes="(min-width: 860px) 760px, 100vw" class="h-auto w-full" loading="lazy" />
+  </a>
+  {pie && <figcaption>{pie}</figcaption>}
+</figure>
