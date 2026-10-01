@@ -30,14 +30,17 @@ import capacidadGeneral from '../../assets/blog/s1-code/fig21-capacidad-general.
 import resultadoV01 from '../../assets/blog/s1-code/fig22-s1grep-v01.png';
 import lenguajes from '../../assets/blog/s1-code/fig23-lenguajes.png';
 import velocidad from '../../assets/blog/s1-code/fig24-velocidad.png';
+import repositoriosGrandes from '../../assets/blog/s1-code/fig25-repositorios-grandes.png';
+import modelosRapidos from '../../assets/blog/s1-code/fig26-modelos-mas-rapidos.png';
+import palabras from '../../assets/blog/s1-code/fig27-palabras.png';
 
 const articulo = ARTICULOS.find((entrada) => entrada.slug === 's1-code-y-s1grep')!;
 
 const CIFRAS = [
   { valor: '168 / 201', texto: 'búsquedas reales con la función correcta en 1.er lugar (los embeddings solos: 145)' },
   { valor: '83 % · 85 %', texto: 'acierto en inglés y en español: el idioma de la pregunta casi no importa' },
-  { valor: '1,3 s', texto: 'por búsqueda en una CPU común, sin GPU ni nube' },
-  { valor: '322M', texto: 'parámetros: s1-code v3, abierto bajo Apache 2.0' },
+  { valor: '1,3 s', texto: 'por búsqueda en una CPU común, sin GPU ni nube, con los modelos ya cargados' },
+  { valor: '9 lenguajes', texto: 'Python, JavaScript, TypeScript, Go, Java, PHP, Rust, Ruby y C#' },
 ];
 
 const INDICE = [
@@ -52,6 +55,8 @@ const INDICE = [
   { id: 'v3', texto: '6 · s1-code v3' },
   { id: 's1grep', texto: '7 · s1grep, el producto' },
   { id: 'lenguajes', texto: '8 · Otros lenguajes' },
+  { id: 'producto', texto: '9 · De prototipo a producto' },
+  { id: 'descartado', texto: 'Lo que probamos y descartamos' },
   { id: 'lecciones', texto: 'Lecciones' },
   { id: 'limites', texto: 'Límites y costos' },
   { id: 'siguiente', texto: 'Lo que sigue' },
@@ -112,7 +117,7 @@ const boton = 'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm fon
 
       <article class="prosa min-w-0 max-w-[760px]">
         <blockquote>
-          <strong>Antes de empezar:</strong> no soy experto en machine learning. Es la primera vez que entreno un modelo, y este proyecto fue, ante todo, un proceso de aprendizaje. Por eso cuento también los errores, las hipótesis que fallaron y lo que todavía no sé. Si algo se puede hacer mejor, me encantará leerlo.
+          <strong>Sobre este trabajo:</strong> es el primer modelo que entreno. Vengo de la ingeniería de software, no de la investigación en IA, así que trabajé con una regla simple: ninguna decisión sin una medición. Las predicciones se escribieron antes de ver los resultados, los exámenes finales se abrieron una sola vez y aquí cuento también lo que no funcionó.
         </blockquote>
 
         <h2 id="resumen">En corto</h2>
@@ -120,6 +125,7 @@ const boton = 'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm fon
           <li><strong>Laya, un modelo System One abierto, no sabía juzgar código</strong>: acertó 1 de 20 búsquedas, como el azar. Lo medimos en una tarde antes de construir nada sobre él.</li>
           <li><strong>Entrenamos nuestro propio modelo, s1-code</strong>, en tres versiones. La v3 acierta 161 de 197 búsquedas reales nunca vistas por sí sola, frente a 144 de la v1 (p = 0,002) y 152 de Qwen3-Embedding.</li>
           <li><strong>Construimos s1grep</strong>, un buscador local en Rust: encuentra la función correcta en 1.er lugar en 168 de 201 búsquedas reales, contra 145 de los embeddings solos, en inglés y en español por igual.</li>
+          <li><strong>Lo llevamos de prototipo a producto</strong> en cinco versiones (0.2 a 0.5): nueve lenguajes, repositorios grandes buscables en minutos, búsqueda por palabras donde ayuda, un proceso en segundo plano que nadie tiene que arrancar y una herramienta para agentes de programación. El examen se mantuvo en 168 de 201 en cada versión.</li>
           <li><strong>No todo salió bien</strong>: la v3 no supera con seguridad a la v2, los modelos grandes con GPU siguen siendo mejores jueces y, en otros lenguajes, el juez ayuda en Java pero empeora JavaScript y Go. Todo eso está medido y contado aquí.</li>
         </ul>
 
@@ -265,7 +271,7 @@ def send_with_retry(self, document, attempts=3): ... [SEP]
         <h2 id="s1grep">Fase 7 · s1grep: el producto</h2>
         <p>Con el modelo congelado, construimos el buscador alrededor de él. Funciona en cuatro pasos, todos en tu CPU:</p>
         <ol>
-          <li><strong>Indexar</strong>: tree-sitter parte cada archivo de Python en funciones y métodos; granite convierte cada una en un vector y se guarda en SQLite, fuera del repositorio. Solo se vuelven a leer los archivos que cambiaron.</li>
+          <li><strong>Indexar</strong>: tree-sitter parte cada archivo en funciones y métodos; granite convierte cada una en un vector y se guarda en SQLite, fuera del repositorio. Solo se vuelven a leer los archivos que cambiaron.</li>
           <li><strong>Buscar</strong>: la pregunta se convierte en vector y salen las 25 funciones más cercanas.</li>
           <li><strong>Juzgar</strong>: s1-code v3 lee las 5 primeras y responde con una probabilidad.</li>
           <li><strong>Combinar</strong>: el orden del juez y el del buscador se fusionan con pesos elegidos en dev, nunca en test.</li>
@@ -273,17 +279,18 @@ def send_with_retry(self, document, attempts=3): ... [SEP]
         <Figura imagen={resultadoV01} alt="Barras de granite solo contra s1grep v0.1 por idioma" pie="s1grep v0.1 en el test de 201 búsquedas reales: 168 en 1.er lugar contra 145 de los embeddings solos, y 189 entre los 5 primeros. Inglés y español quedan parejos." />
         <h3>Velocidad</h3>
         <p>
-          Leer más texto no ayudaba: recortar lo que lee el juez a 256 o 192 tokens lo hace más rápido pero baja el acierto por debajo de no usarlo, porque se entrenó leyendo 384. Lo que sí funcionó fue juzgar las candidatas una por una en vez de en lote (25 % más rápido, mismas respuestas) y dejar los modelos cargados en memoria.
+          Recortar lo que lee el juez a 256 o 192 tokens lo hace más rápido, pero baja el acierto por debajo de no usarlo, porque se entrenó leyendo 384. Lo que sí funcionó fue juzgar las candidatas una por una en vez de en lote (25 % más rápido, mismas respuestas) y dejar los modelos cargados en memoria.
         </p>
-        <Figura imagen={velocidad} alt="Barras de segundos por búsqueda sin y con el servidor local" pie="La mayor parte del tiempo era cargar 2,4 GB de modelos en cada búsqueda. Con s1grep serve los modelos se quedan en memoria y cada búsqueda baja a 1,3 s." />
+        <Figura imagen={velocidad} alt="Barras de segundos por búsqueda sin y con el proceso de fondo" pie="La mayor parte del tiempo era cargar unos 2,5 GB de modelos en cada búsqueda. Un proceso en segundo plano, que arranca solo con la primera búsqueda, los mantiene en memoria y cada búsqueda baja a 1,3 s." />
         <h3>Cómo se usa</h3>
         <pre><code>s1grep setup                                     # descarga los modelos, una sola vez
 s1grep "dónde se reintenta un pago fallido" .    # buscar
-s1grep serve                                     # modelos en memoria: ~1,3 s por búsqueda
-s1grep mcp                                       # herramienta search_code para agentes
+s1grep index .                                   # indexar un repositorio grande y seguir el progreso
+s1grep status                                    # qué está cargado y cuánto está indexado
+s1grep mcp                                       # herramientas para agentes: search_code e index_status
 s1grep skill --install                           # guía de uso para Claude Code</code></pre>
         <p>
-          Es un solo binario para Linux y Windows. Funciona con agentes de programación por MCP (Claude Code, Codex, Cursor) y el servidor local solo escucha en tu máquina, con una clave que únicamente tu usuario puede leer.
+          Es un solo binario para Linux y Windows, sin Python. Nadie tiene que arrancar ni detener nada: la primera búsqueda levanta un proceso en segundo plano que solo escucha en tu máquina, con una clave que únicamente tu usuario puede leer, y se apaga tras 30 minutos sin uso.
         </p>
 
         <h2 id="lenguajes">Fase 8 · ¿Sirve para otros lenguajes?</h2>
@@ -292,7 +299,81 @@ s1grep skill --install                           # guía de uso para Claude Code
         </p>
         <Figura imagen={lenguajes} alt="Flechas por lenguaje que muestran el cambio de acierto al usar el juez" pie="El juez ayuda en Java (+10) y PHP (+3), no cambia nada en Ruby y empeora JavaScript (−8) y Go (−6). Con 100 preguntas por lenguaje cada diferencia tiene un margen de unos ±9 puntos." />
         <p>
-          Nuestra predicción, escrita antes, decía que ningún lenguaje quedaría por debajo de granite solo. <strong>Falló en dos.</strong> Por eso la v0.1 de s1grep es solo para Python, y los siguientes lenguajes llegarán con un modelo entrenado también con ellos.
+          Nuestra predicción, escrita antes, decía que ningún lenguaje quedaría por debajo de granite solo. <strong>Falló en dos.</strong> La primera versión de s1grep se limitó a Python; desde la 0.2.6 lee nueve lenguajes con el mismo juez y esta tabla queda publicada para que cada uno sepa qué esperar. La solución de fondo es un juez entrenado con varios lenguajes.
+        </p>
+
+        <h2 id="producto">Fase 9 · De prototipo a producto (s1grep 0.2 a 0.5)</h2>
+        <p>
+          La versión 0.1 demostraba la idea, pero en un repositorio grande la primera búsqueda podía tardar minutos, había que arrancar un servidor a mano y solo entendía Python. Antes de seguir añadiendo funciones, escribimos la arquitectura del producto, sus decisiones documentadas y una regla para todo cambio: <strong>el examen de 201 búsquedas no puede bajar</strong>. En las cinco versiones siguientes se mantuvo en 168.
+        </p>
+
+        <h3>Repositorios grandes: buscable en minutos</h3>
+        <p>
+          Indexar el código completo de cada función cuesta unos 5 a 10 por segundo en CPU: un repositorio de 25 000 funciones toma horas. La solución fue indexar en dos pasadas. Primero un <strong>esquema</strong> de cada función (ruta, nombre y primeras líneas), que basta para buscar en todo el repositorio; después, en segundo plano, el código completo, que es el que da la calidad final. Las búsquedas responden desde el primer momento y avisan cuánto del repositorio se puede buscar todavía.
+        </p>
+        <div class="tabla"><table>
+          <thead><tr><th>Esquemas con</th><th>1.er lugar (de 201)</th><th>Entre los 5 primeros</th><th>Velocidad</th></tr></thead>
+          <tbody>
+            <tr><td>granite 278M, el modelo principal</td><td class="num">135</td><td class="num">167</td><td class="num">1×</td></tr>
+            <tr class="destacada"><td>granite 97M, un modelo más pequeño</td><td class="num">133</td><td class="num">166</td><td class="num">3,3×</td></tr>
+          </tbody>
+        </table></div>
+        <p>
+          Para los esquemas, un modelo tres veces más pequeño rinde casi igual, así que s1grep usa los dos: el pequeño para la primera pasada y el principal para la final. Con el repositorio completo, la búsqueda es exactamente la de antes.
+        </p>
+        <Figura imagen={repositoriosGrandes} alt="Barras de la primera búsqueda y del tiempo hasta poder buscar en todo, en dos versiones" pie="Un repositorio de unas 25 000 funciones indexado desde cero: la primera búsqueda pasa de 514 s a 18 s y todo el repositorio queda buscable en unos 7 minutos." />
+
+        <h3>Nueve lenguajes</h3>
+        <p>
+          Cada lenguaje es una consulta de tree-sitter de pocas líneas que indica qué es una función y cómo se llama su contenedor (una clase, un <code>impl</code> de Rust, el receptor de un método en Go). Sumar un lenguaje no toca el resto del código. Python conserva el extractor con el que se entrenó y examinó el modelo, para que sus resultados no cambien.
+        </p>
+
+        <h3>Buscar por palabras solo donde ayuda</h3>
+        <p>
+          La búsqueda por significado falla con lo que se busca literalmente: un nombre exacto (<code>parse_config</code>) o un mensaje de error copiado de un log. Para eso cada repositorio tiene también un índice por palabras (BM25), con un tokenizador hecho para código que separa <code>camelCase</code> y <code>snake_case</code> y no depende de ningún idioma humano.
+        </p>
+        <p>
+          Usarlo en todas las búsquedas empeoró el examen: una pregunta en español comparte pocas palabras con código escrito en inglés, así que la lista por palabras solo metía ruido. La regla publicada decide por la forma de la consulta: si parece código, cuentan todas sus palabras; si es una frase, solo las coincidencias exactas.
+        </p>
+        <Figura imagen={palabras} alt="Barras de acierto con y sin búsqueda por palabras en tres tipos de consulta" pie="Con la regla, las preguntas en lenguaje natural no cambian (168 de 201), los nombres de función suben de 149 a 151 y el texto pegado del código, de 52 a 63 de 84." />
+
+        <h3>Un juez que se detiene cuando está seguro</h3>
+        <p>
+          El juez lee las candidatas en orden y cada lectura cuesta unos 0,4 segundos. Si una supera el 90 % de probabilidad, no hace falta leer las siguientes.
+        </p>
+        <div class="tabla"><table>
+          <thead><tr><th>El juez lee</th><th>1.er lugar (de 201)</th><th>Lecturas por búsqueda</th></tr></thead>
+          <tbody>
+            <tr><td>Siempre las 5</td><td class="num">168</td><td class="num">5,0</td></tr>
+            <tr class="destacada"><td>Hasta que una supera el 90 %</td><td class="num">168</td><td class="num">3,3</td></tr>
+            <tr><td>Hasta que una supera el 80 %</td><td class="num">166</td><td class="num">2,8</td></tr>
+            <tr><td>Siempre solo 3</td><td class="num">165</td><td class="num">3,0</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Para agentes de programación</h3>
+        <p>
+          El proceso en segundo plano usa dos hilos: uno responde al instante (saber si está vivo, su estado, detenerlo) aunque el otro esté buscando o indexando, y una búsqueda abandonada por su cliente se cancela. Por MCP, los agentes tienen dos herramientas: <code>search_code</code>, con paginación, avisos de cobertura y notificaciones de progreso, e <code>index_status</code>. El protocolo, las decisiones de arquitectura y los exámenes están documentados en el repositorio.
+        </p>
+
+        <h2 id="descartado">Lo que probamos y descartamos</h2>
+        <p>Cada idea se midió con el mismo examen antes de entrar. Estas no pasaron:</p>
+        <Figura imagen={modelosRapidos} alt="Dispersión de velocidad contra acierto de cuatro formas de ejecutar el modelo de búsqueda" pie="Ninguna forma de acelerar el modelo principal conservó los aciertos: los pesos en INT8 dan 1,25 a 1,3 veces más velocidad y pierden de 5 a 21 búsquedas; el modelo pequeño para todo es 2,3 veces más rápido y pierde 14." />
+        <div class="tabla"><table>
+          <thead><tr><th>Idea</th><th>Resultado</th><th>Decisión</th></tr></thead>
+          <tbody>
+            <tr><td>Pesos en INT8 para el modelo de búsqueda</td><td>1,3× más rápido, 163 de 201 en el mejor caso</td><td>Descartada</td></tr>
+            <tr><td>El modelo pequeño también para el código completo</td><td>2,3× más rápido, 154 de 201</td><td>Solo para esquemas</td></tr>
+            <tr><td>Esquemas de 2 líneas en vez de 4</td><td>Igual de rápidos, 129 de 201 en vez de 135</td><td>Descartada</td></tr>
+            <tr><td>Leer menos tokens por función</td><td>La función típica tiene unos 160 tokens: recortar a 384 ahorra 6–10 %</td><td>Descartada</td></tr>
+            <tr><td>Dos jueces en paralelo</td><td>Cada lectura pasa de 0,39 s a 1,06 s: la CPU está limitada por la memoria, no por los núcleos</td><td>Descartada</td></tr>
+            <tr><td>Buscar por palabras en todas las consultas</td><td>145 a 155 de 201, sobre todo por las preguntas en español</td><td>Solo con la regla</td></tr>
+            <tr><td>Priorizar palabras raras de la pregunta que aparecen en nombres de funciones</td><td>Arreglaba la búsqueda que la inspiró y bajó el examen a 141 de 201</td><td>Descartada</td></tr>
+            <tr><td>Vigilar los archivos con un <em>watcher</em></td><td>Detectar cambios ya cuesta unos 110 ms de búsquedas de 1,3 a 2 s</td><td>No se construyó</td></tr>
+          </tbody>
+        </table></div>
+        <p>
+          La penúltima merece una nota: es fácil diseñar una regla mirando la búsqueda que falló y convencerse de que mejora el producto. Arreglaba ese caso y rompía 27 aciertos de otros. Por eso ninguna regla entra sin pasar por el examen.
         </p>
 
         <h2 id="lecciones">Lecciones de método</h2>
@@ -307,6 +388,9 @@ s1grep skill --install                           # guía de uso para Claude Code
           <li><strong>Vigilar la memorización mientras se entrena</strong>, no después, y quedarse con el mejor punto.</li>
           <li><strong>Elegir al maestro con una prueba.</strong> El modelo más llamativo no fue el mejor.</li>
           <li><strong>Diseñar para que la nube falle.</strong> El proveedor apagó GPUs dos veces a mitad de una corrida; guardar cada resultado al llegar convirtió eso en minutos perdidos, no en horas.</li>
+          <li><strong>Una regla que arregla un caso puede romper cuarenta.</strong> Toda mejora se mide con el examen completo, nunca con el ejemplo que la inspiró.</li>
+          <li><strong>Medir lo publicado, no lo que crees haber publicado.</strong> Un valor cambiado por error dejó los esquemas en 2 líneas durante dos versiones; solo el examen lo destapó.</li>
+          <li><strong>Las cifras publicadas de un modelo no sustituyen a tu examen.</strong> Un modelo con mejores resultados en los benchmarks públicos de código perdió 14 búsquedas en el nuestro.</li>
         </ol>
 
         <h2 id="limites">Límites y costos</h2>
@@ -314,7 +398,8 @@ s1grep skill --install                           # guía de uso para Claude Code
           <li>Los exámenes tienen 200 preguntas: detectan diferencias de unos 10 aciertos, no menores.</li>
           <li>Si el buscador no trae la función correcta entre las candidatas, el juez no puede rescatarla.</li>
           <li>Los modelos grandes con GPU siguen siendo mejores jueces; s1-code gana en tamaño, CPU, paridad de idioma, licencia y privacidad.</li>
-          <li>Solo Python por ahora, y la primera indexación de un repositorio grande toma minutos.</li>
+          <li>En un repositorio grande, todo queda buscable en minutos, pero la calidad final (el código completo de cada función) tarda más: en una CPU, unas 5 a 10 funciones por segundo.</li>
+          <li>El juez se entrenó con Python: en otros lenguajes y en código de dominios muy específicos da probabilidades bajas, y todavía no sabe decir con seguridad que la respuesta no está en el repositorio.</li>
           <li>Los repositorios privados usados para el examen y parte del entrenamiento no se publican; se describen solo en conjunto.</li>
           <li>Todavía no medimos el efecto en un agente real (tokens o tiempo ahorrados), que es la comparación que hace jevgrep.</li>
         </ul>
@@ -331,9 +416,9 @@ s1grep skill --install                           # guía de uso para Claude Code
 
         <h2 id="siguiente">Lo que sigue</h2>
         <ul>
-          <li><strong>s1grep v0.2</strong>: más lenguajes (JavaScript y TypeScript, Go, Java, PHP), con juez solo donde está medido que ayuda.</li>
-          <li><strong>s1-code v4</strong>: varios lenguajes desde el inicio y entradas más cortas para responder en menos de 1 s.</li>
-          <li><strong>Medir con agentes reales</strong>, con las mismas tareas que usa jevgrep.</li>
+          <li><strong>s1-code v4</strong>: un juez generalista entrenado con varios lenguajes desde el inicio, con el mismo método y las mismas reglas de examen.</li>
+          <li><strong>Saber decir "no está aquí"</strong>: un examen con preguntas cuya respuesta no existe en el repositorio y un juez calibrado para reconocerlas. Es lo que más valor tendría para un agente: dejar de buscar donde no hay nada.</li>
+          <li><strong>Medir con agentes reales</strong>, con las mismas tareas que usa jevgrep: cuántos archivos lee y cuántos tokens gasta un agente con y sin s1grep.</li>
         </ul>
         <p>Cada versión se publica solo si le gana a la anterior en el examen. Si no, se cuenta igual.</p>
 
@@ -364,7 +449,8 @@ s1grep skill --install                           # guía de uso para Claude Code
         <ul>
           <li><a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener">Laya</a> (Convai Innovations, Apache 2.0), el modelo base.</li>
           <li><a href="https://github.com/dzhng/jevgrep" target="_blank" rel="noopener">jevgrep</a> y <a href="https://github.com/Intelligent-Intern/layagrep" target="_blank" rel="noopener">layagrep</a>, las herramientas de referencia.</li>
-          <li><a href="https://huggingface.co/ibm-granite/granite-embedding-278m-multilingual" target="_blank" rel="noopener">granite-embedding-278m-multilingual</a> (IBM) y <a href="https://qwenlm.github.io/blog/qwen3-embedding/" target="_blank" rel="noopener">Qwen3 Embedding y Reranker</a>.</li>
+          <li><a href="https://huggingface.co/ibm-granite/granite-embedding-278m-multilingual" target="_blank" rel="noopener">granite-embedding-278m-multilingual</a> y <a href="https://huggingface.co/ibm-granite/granite-embedding-97m-multilingual-r2" target="_blank" rel="noopener">granite-embedding-97m-multilingual-r2</a> (IBM), y <a href="https://qwenlm.github.io/blog/qwen3-embedding/" target="_blank" rel="noopener">Qwen3 Embedding y Reranker</a>.</li>
+          <li><a href="https://tree-sitter.github.io/tree-sitter/" target="_blank" rel="noopener">tree-sitter</a> y <a href="https://github.com/quickwit-oss/tantivy" target="_blank" rel="noopener">tantivy</a>, para leer el código y buscar por palabras.</li>
           <li><a href="https://huggingface.co/datasets/bigcode/commitpackft" target="_blank" rel="noopener">CommitPackFT</a>, <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench" target="_blank" rel="noopener">SWE-bench</a>, <a href="https://huggingface.co/datasets/SWE-Gym/SWE-Gym" target="_blank" rel="noopener">SWE-Gym</a>, <a href="https://huggingface.co/datasets/SWE-bench/SWE-smith" target="_blank" rel="noopener">SWE-smith</a>, <a href="https://github.com/gonglinyuan/CoSQA" target="_blank" rel="noopener">CoSQA</a> y <a href="https://huggingface.co/datasets/code-search-net/code_search_net" target="_blank" rel="noopener">CodeSearchNet</a>.</li>
         </ul>
 
