@@ -7,6 +7,8 @@ export const PERSONA = {
   rol: 'Fundador y CEO de API SERVICE SAC',
   ubicacion: 'Lima, Perú',
   foto: '/marca/josue.jpg',
+  // Close crop of the same photo for small round avatars.
+  avatar: '/marca/josue-avatar.jpg',
   // Contacto de trabajo: el correo y el WhatsApp de la empresa (el mismo de apiservicesac.com).
   correo: 'jsalazar@apiservicesac.com',
   whatsapp: 'https://wa.me/51941576391',
