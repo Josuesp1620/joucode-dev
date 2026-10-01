@@ -111,7 +111,11 @@ const boton = 'inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm fon
       </aside>
 
       <article class="prosa min-w-0 max-w-[760px]">
-        <h2 id="resumen" style="margin-top:0">En corto</h2>
+        <blockquote>
+          <strong>Antes de empezar:</strong> no soy experto en machine learning. Es la primera vez que entreno un modelo, y este proyecto fue, ante todo, un proceso de aprendizaje. Por eso cuento también los errores, las hipótesis que fallaron y lo que todavía no sé. Si algo se puede hacer mejor, me encantará leerlo.
+        </blockquote>
+
+        <h2 id="resumen">En corto</h2>
         <ul>
           <li><strong>Laya, un modelo System One abierto, no sabía juzgar código</strong>: acertó 1 de 20 búsquedas, como el azar. Lo medimos en una tarde antes de construir nada sobre él.</li>
           <li><strong>Entrenamos nuestro propio modelo, s1-code</strong>, en tres versiones. La v3 acierta 161 de 197 búsquedas reales nunca vistas por sí sola, frente a 144 de la v1 (p = 0,002) y 152 de Qwen3-Embedding.</li>
